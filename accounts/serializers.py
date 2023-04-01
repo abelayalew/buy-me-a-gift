@@ -1,6 +1,5 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
-from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
 from . import models
@@ -23,16 +22,28 @@ class LoginSerializer(serializers.Serializer):
     token = serializers.CharField(read_only=True)
     refresh_token = serializers.CharField(read_only=True)
 
+    @classmethod
+    def generate_token(cls, user):
+        refresh_token = RefreshToken.for_user(user)
+
+        return {
+            'token': refresh_token.access_token.__str__(),
+            'refresh_token': refresh_token.__str__()
+        }
+
     def create(self, validated_data):
         user = authenticate(email=validated_data.get('email'), password=validated_data.get('password'))
 
         if not user:
             raise AuthenticationFailed()
 
-        refresh_token = RefreshToken.for_user(user)
-
         return {
             'user': user,
-            'token': refresh_token.access_token.__str__(),
-            'refresh_token': refresh_token.__str__()
+            **self.generate_token(user)
         }
+
+
+class PasswordResetSerializer(serializers.Serializer):
+    old_password = serializers.CharField(write_only=True)
+    new_password_1 = serializers.CharField(write_only=True)
+    new_password_2 = serializers.CharField(write_only=True)

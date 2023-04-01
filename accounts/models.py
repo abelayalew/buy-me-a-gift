@@ -1,14 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .manager import AccountManger
+from lib.mixins import NULL
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50, null=True, blank=True)
+    last_name = models.CharField(max_length=50, **NULL)
 
     email = models.EmailField(verbose_name="email", unique=True)
-    username = models.CharField(max_length=30, unique=True, null=True, blank=True)
+    username = models.CharField(max_length=30, unique=True, **NULL)
 
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
