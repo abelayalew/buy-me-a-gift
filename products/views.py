@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from . import serializers, models
-
+from accounts.models import User
 
 class ProductListCreateView(generics.ListCreateAPIView):
     permission_classes = []
@@ -45,4 +45,35 @@ class ProductRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
             return True
 
         raise AuthenticationFailed()
+
+
+class WishListCreateView(generics.ListCreateAPIView):
+    serializer_class = serializers.WishListSerializer
+
+    def get_queryset(self):
+        q_params = self.request.query_params
+
+        if user_id := q_params.get('user'):
+            return models.WishList.objects.filter(user_id=user_id)
+
+        return models.WishList.objects.filter(user=self.request.user)
+
+    def check_permissions(self, request):
+        authenticated = request.user.is_authenticated
+        q_params = request.query_params
+
+        if user_id := q_params.get('user'):
+            try:
+                User.objects.get(id=user_id)
+                return True
+            except User.DoesNotExist:
+                raise ValidationError("please provide a valid user id")
+
+        if not authenticated:
+            raise AuthenticationFailed("Please login or provide a valid user id")
+
+
+class WishRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = serializers.WishListSerializer
+    queryset = models.WishList.objects.all()
 

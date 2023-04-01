@@ -12,6 +12,9 @@ class Product(BaseModelMixin):
     price = models.FloatField()
     rank = models.IntegerField(default=0)
 
+    class Meta:
+        ordering = 'rank', 'created_at'
+
 
 class WishList(BaseModelMixin):
     user = models.ForeignKey('accounts.User', models.CASCADE, 'wishlist')
