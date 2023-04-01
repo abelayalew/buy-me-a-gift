@@ -22,9 +22,6 @@ class PasswordResetView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         validated_data = serializer.validated_data
 
-        password_1 = validated_data.get('new_password_1')
-        password_2 = validated_data.get('new_password_2')
-
         user = request.user
 
         if not user.check_password(validated_data.get('old_password')):
@@ -33,7 +30,7 @@ class PasswordResetView(generics.CreateAPIView):
         if validated_data.get('new_password_1') != validated_data.get('new_password_2'):
             raise ValidationError("New Password mismatch")
 
-        user.set_password(password_1)
+        user.set_password(validated_data.get('new_password_1'))
         user.save()
 
         data = serializers.LoginSerializer(instance={'user': user, **serializers.LoginSerializer.generate_token(user)})

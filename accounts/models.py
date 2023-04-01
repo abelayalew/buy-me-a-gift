@@ -2,9 +2,11 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .manager import AccountManger
 from lib.mixins import NULL
+from uuid import uuid4
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    id = models.UUIDField(default=uuid4, primary_key=True, editable=False)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50, **NULL)
 
