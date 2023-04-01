@@ -8,6 +8,12 @@ class ProductCategorySerializer(serializers.ModelSerializer):
         fields = 'name',
 
 
+class ProductBasicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Product
+        fields = 'id', 'name', 'price', 'category', 'created_at'
+
+
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Product
