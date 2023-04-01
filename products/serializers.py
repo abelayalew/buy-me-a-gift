@@ -6,7 +6,7 @@ from . import models
 class ProductCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ProductCategory
-        fields = 'name',
+        fields = 'id', 'name',
 
 
 class ProductBasicSerializer(serializers.ModelSerializer):
@@ -24,7 +24,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class WishListSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.WishList
-        fields = 'product',
+        fields = 'id', 'product',
 
     def create(self, validated_data):
         user = self.context['request'].user

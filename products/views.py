@@ -77,3 +77,20 @@ class WishRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.WishListSerializer
     queryset = models.WishList.objects.all()
 
+
+class CategoryListCreateView(generics.ListCreateAPIView):
+    serializer_class = serializers.ProductCategorySerializer
+    queryset = models.ProductCategory.objects.all()
+
+    def check_permissions(self, request):
+        if request.method == 'GET':
+            return True
+
+
+class CategoryRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = serializers.ProductCategorySerializer
+    queryset = models.ProductCategory.objects.all()
+
+    def check_permissions(self, request):
+        if request.method == 'GET':
+            return True
