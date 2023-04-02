@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  gift_db:
+    image: postgres:14
+    restart: unless-stopped
+    volumes:
+      - gift-shop-db-data:/var/lib/postgresql/data
+    env_file:
+      - .env.example
+    ports:
+      - "5430:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  web:
+    restart: unless-stopped
+    build: .
+    command: sh run.sh
+    volumes:
+      - gift-shop-media:/code/media
+    ports:
+      - "9005:8000"
+    env_file:
+      - .env.example
+
+    depends_on:
+        gift_db:
+           condition: service_healthy
+
+volumes:
+  gift-shop-db-data:
+  gift-shop-media:

@@ -1,0 +1,45 @@
+[
+{
+    "model": "products.productcategory",
+    "pk": "2e08ca0b-fac7-481c-a7d7-3ff5ce9cc637",
+    "fields": {
+        "created_at": "2023-04-01T11:55:07.234Z",
+        "updated_at": null,
+        "name": "cat one"
+    }
+},
+{
+    "model": "products.product",
+    "pk": "069b91ed-cc7d-40b9-98d7-1cf915b2c879",
+    "fields": {
+        "created_at": "2023-04-01T11:55:11.204Z",
+        "updated_at": "2023-04-01T12:09:23.975Z",
+        "name": "rone",
+        "category": "2e08ca0b-fac7-481c-a7d7-3ff5ce9cc637",
+        "price": 100.0,
+        "rank": 0
+    }
+},
+{
+    "model": "products.product",
+    "pk": "9673cfe0-6b91-48c5-a433-58bca1e52863",
+    "fields": {
+        "created_at": "2023-04-01T12:00:35.128Z",
+        "updated_at": null,
+        "name": "two",
+        "category": "2e08ca0b-fac7-481c-a7d7-3ff5ce9cc637",
+        "price": 101.0,
+        "rank": 0
+    }
+},
+{
+    "model": "products.wishlist",
+    "pk": "2c9225d4-08a5-427f-88ab-58bbe5260ca3",
+    "fields": {
+        "created_at": "2023-04-01T13:19:51.651Z",
+        "updated_at": null,
+        "user": "aaf17ce0-6da3-4c4b-9efe-3c0ac6077146",
+        "product": "9673cfe0-6b91-48c5-a433-58bca1e52863"
+    }
+}
+]
