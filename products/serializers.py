@@ -21,6 +21,10 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ProductMultiCreateSerializer(serializers.Serializer):
+    products = serializers.ListField(child=ProductSerializer(), required=True, allow_null=False)
+
+
 class WishListSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.WishList

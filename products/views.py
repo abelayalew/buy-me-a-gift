@@ -1,7 +1,21 @@
 from rest_framework import generics
+from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from . import serializers, models
 from accounts.models import User
+
+
+class ProductMultiCreateSerializer(generics.CreateAPIView):
+    serializer_class = serializers.ProductMultiCreateSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = serializers.ProductMultiCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        print(serializer.data.get('products'))
+
+        return Response(serializer.data, status=201)
+
 
 class ProductListCreateView(generics.ListCreateAPIView):
     permission_classes = []
